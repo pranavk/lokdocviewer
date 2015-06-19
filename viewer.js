@@ -29,6 +29,10 @@ const LOKDocViewer = new Lang.Class ({
         this._testViewer ();
     },
 
+    _onKeyPress: function (widget, event) {
+        this._view.post_key (event);
+    },
+
     // Build the application's UI
     _testViewer: function () {
 
@@ -45,13 +49,13 @@ const LOKDocViewer = new Lang.Class ({
 
         this._window.add (this._sw);
         
-        this._view = new LOKDocView.View({lokpath: inst_path});
-
-        //this._view.open_document(doc_path);
+        this._view = LOKDocView.View.new(inst_path, null, null);
+        this._view.open_document(doc_path);
         
         // Put the webview into the window
         this._sw.add(this._view);
-
+        this._window.connect ('key-press-event', Lang.bind (this, this._onKeyPress));
+        this._window.connect ('key-release-event', Lang.bind (this, this._onKeyPress));
         // Show the window and all child widgets
         this._window.show_all();
     },
