@@ -31,6 +31,8 @@ const LOKDocViewer = new Lang.Class ({
 
     open_document_cb: function () {
 	log ("callback is called");
+	this.spinner.stop();
+	this.spinner.hide();
     },
 
     // Build the application's UI
@@ -43,14 +45,19 @@ const LOKDocViewer = new Lang.Class ({
         });
         this._sw = new Gtk.ScrolledWindow({ hexpand: true,
                                             vexpand: true });
-        this._window.add (this._sw);
-
+	this.overlay = new Gtk.Overlay({visible: true});
+	this.spinner = new Gtk.Spinner();
+	this._window.add(this.overlay);
+	this.overlay.add(this._sw);
+	this.overlay.add_overlay(this.spinner);
+	this.overlay.show();
+	this.spinner.show();
         this._view = LOKDocView.View.new(inst_path, null, null);
         this._sw.add(this._view);
-        this._view.open_document(doc_path, null, this.open_document_cb, null);
+	this.spinner.start();
+        this._view.open_document(doc_path, null, Lang.bind(this,this.open_document_cb), null);
         this._window.show_all();
     },
-
 });
 
 // Run the application
