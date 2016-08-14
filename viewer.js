@@ -54,7 +54,7 @@ const LOKDocViewer = new Lang.Class ({
         this._view = LOKDocView.View.new(null, null, null);
         this._sw.add(this._view);
 	this.spinner.start();
-        this._view.open_document(doc_path, null, Lang.bind(this,this.open_document_cb), null);
+        this._view.open_document(doc_path, "{}" ,null, Lang.bind(this,this.open_document_cb), null);
         this._window.show_all();
     },
 });
