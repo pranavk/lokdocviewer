@@ -4,7 +4,6 @@ const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
 const LOKDocView = imports.gi.LOKDocView;
 
-const inst_path = "/opt/libreoffice/instdir/program";
 const doc_path = "/opt/orig.odt"
 
 const LOKDocViewer = new Lang.Class ({
@@ -13,7 +12,7 @@ const LOKDocViewer = new Lang.Class ({
     // Create the application itself
     _init: function () {
        this.application = new Gtk.Application ();
-        
+
          // Connect 'activate' and 'startup' signals to the callback functions
         this.application.connect('activate', Lang.bind(this, this._onActivate));
         this.application.connect('startup', Lang.bind(this, this._onStartup));
@@ -52,7 +51,7 @@ const LOKDocViewer = new Lang.Class ({
 	this.overlay.add_overlay(this.spinner);
 	this.overlay.show();
 	this.spinner.show();
-        this._view = LOKDocView.View.new(inst_path, null, null);
+        this._view = LOKDocView.View.new(null, null, null);
         this._sw.add(this._view);
 	this.spinner.start();
         this._view.open_document(doc_path, null, Lang.bind(this,this.open_document_cb), null);
